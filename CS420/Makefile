@@ -1,0 +1,13 @@
+obj-m += assignment-1.o
+all:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+
+ins:
+	sudo dmesg -C
+	sudo insmod assignment-1.ko
+
+rm:
+	sudo rmmod assignment-1

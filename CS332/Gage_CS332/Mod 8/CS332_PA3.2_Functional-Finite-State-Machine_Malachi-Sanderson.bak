@@ -1,0 +1,10 @@
+#lang racket
+;----------------------------------------------------------------------------------
+;Malachi Gage Sanderson...
+;CS332 Mod 7 Programming Assignment 3.2...
+;PROBLEM: Encode a finite state machine in the Racket language using only the functional features
+;of Racket. One of the following alphabets must be used: sigma = {0, 1}  or sigma = {a, b}.
+;There is no required format for strings. Strings may be represented as strings or arrays of
+;integers/characters
+;
+;-----------------------------------------------------------------------------------

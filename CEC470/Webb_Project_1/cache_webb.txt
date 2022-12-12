@@ -1,0 +1,37 @@
+bool DirectCache::requestMemoryAddress(unsigned int address) {
+  // Your Code//
+  //
+  int number_of_word_bits = log2(number_of_words_in_block);
+  int number_of_line_bits = MAXIMUM_NUMBER_OF_LINE_BITS - number_of_word_bits;
+  number_of_memory_requests += 1;
+  unsigned int tag_of_address =
+      (((address & tag_mask) >> number_of_line_bits) >> number_of_word_bits);
+
+  unsigned int line_of_address = ((address & line_mask) >> number_of_word_bits);
+  unsigned int word_of_address = address & word_mask;
+
+  if (tags[line_of_address] == tag_of_address) {
+    number_of_hits += 1;
+    return true;
+  } else {
+    // Load memory here
+    tags[line_of_address] = tag_of_address;
+    for (int i = 0; i < number_of_words_in_block; i++) {
+      blocks[line_of_address, i] = memory[address];
+      address++;
+    }
+    return false;
+  }
+}
+
+unsigned int DirectCache::getPercentageOfHits(void) {
+  /// Your Code /////
+  ///
+  if (number_of_memory_requests == 0 || number_of_hits == 0)
+    return 0;
+
+  unsigned int percent =
+      (((double)number_of_hits / number_of_memory_requests) * 100);
+  // printf("Percent: %f", percent);
+  return percent;
+}

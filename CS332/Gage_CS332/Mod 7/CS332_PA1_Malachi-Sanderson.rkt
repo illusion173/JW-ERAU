@@ -1,0 +1,20 @@
+#lang racket
+(define getDistance (lambda (a b) (abs (- a b))) ) ;just subtracts two values and returns the absolute value. Use on two values on the same axis
+(define getArea (lambda (R) ( * (getDistance(car R) (car(cdr(cdr R)))) (getDistance(car(cdr R)) (car(cdr(cdr(cdr R))))) ) ) )
+
+(define compRectAreas (lambda (Ra Rb)  (if (> (getArea Ra) (getArea Rb))  Ra  Rb )  )) ;given two lists, each with 4 items in their list, return list that produces greater area.
+
+(define compareAll (lambda (rList)   (if (<= (length rList) 1)
+                                         (car rList)
+                                         ( compRectAreas (car rList) (compareAll (cdr rList) ) )
+                                         )   ))
+
+(define rectList (list (list 3 12 9 5) (list 7 7 12 2) (list 8 11 12 9) (list 12 5 16 3)))
+(define exampleTest (compareAll rectList )   ) ;just a way to show this works using given example values
+
+;**************************NOT RELEVANT*******************************************************************
+(define (nth lst counter)
+  (cond ((null? lst) (error 'nth "index out of bounds"))
+        ((= counter 0) (first lst))
+        (else (nth (cdr lst) (- counter 1)))))
+;(define XU (lambda  (rect)  (nth rect 0) ))
