@@ -1,0 +1,93 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             myfunctions, CODE
+    2 00000000                 EXPORT           determine_data_order
+    3 00000000                 EXPORT           add_uint64_s
+    4 00000000                 EXPORT           sub_uint64_s
+    5 00000000                 EXPORT           tc_uint64_to_int64_s
+    6 00000000                 ALIGN
+    7 00000000         determine_data_order
+                               PROC
+    8 00000000 4770            BX               lr
+    9 00000002                 ENDP
+   10 00000002         add_uint64_s
+                               PROC
+   11 00000002 1880            ADDS             R0, R2
+   12 00000004 EB41 0103       ADC              R1, R3
+   13 00000008 4770            BX               lr
+   14 0000000A                 ENDP
+   15 0000000A         sub_uint64_s
+                               PROC
+   16 0000000A 1A80            SUBS             R0, R2
+   17 0000000C EB61 0103       SBC              R1, R3
+   18 00000010 4770            BX               lr
+   19 00000012                 ENDP
+   20 00000012         tc_uint64_to_int64_s
+                               PROC
+   21 00000012 EA6F 0000       MVN              R0, R0
+   22 00000016 EA6F 0101       MVN              R1, R1
+   23 0000001A 3001            ADDS             R0, #1
+   24 0000001C F141 0100       ADC              R1, #0
+   25 00000020 4770            BX               lr
+   26 00000022                 ENDP
+   27 00000022                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
+interwork --depend=.\objects\ws6_add_sub_tc_asm_funcs.d -o.\objects\ws6_add_sub
+_tc_asm_funcs.o -I.\RTE\_Target---sim -IC:\Users\illus\AppData\Local\Arm\Packs\
+ARM\CMSIS\5.8.0\CMSIS\Core\Include -IC:\Users\illus\AppData\Local\Arm\Packs\ARM
+\CMSIS\5.8.0\Device\ARM\ARMCM4\Include --predefine="__EVAL SETA 1" --predefine=
+"__UVISION_VERSION SETA 535" --predefine="_RTE_ SETA 1" --predefine="ARMCM4_FP 
+SETA 1" --predefine="_RTE_ SETA 1" --list=.\listings\ws6_add_sub_tc_asm_funcs.l
+st source\ws6_add_sub_tc_asm_funcs.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+add_uint64_s 00000002
+
+Symbol: add_uint64_s
+   Definitions
+      At line 10 in file source\ws6_add_sub_tc_asm_funcs.s
+   Uses
+      At line 3 in file source\ws6_add_sub_tc_asm_funcs.s
+Comment: add_uint64_s used once
+determine_data_order 00000000
+
+Symbol: determine_data_order
+   Definitions
+      At line 7 in file source\ws6_add_sub_tc_asm_funcs.s
+   Uses
+      At line 2 in file source\ws6_add_sub_tc_asm_funcs.s
+Comment: determine_data_order used once
+myfunctions 00000000
+
+Symbol: myfunctions
+   Definitions
+      At line 1 in file source\ws6_add_sub_tc_asm_funcs.s
+   Uses
+      None
+Comment: myfunctions unused
+sub_uint64_s 0000000A
+
+Symbol: sub_uint64_s
+   Definitions
+      At line 15 in file source\ws6_add_sub_tc_asm_funcs.s
+   Uses
+      At line 4 in file source\ws6_add_sub_tc_asm_funcs.s
+Comment: sub_uint64_s used once
+tc_uint64_to_int64_s 00000012
+
+Symbol: tc_uint64_to_int64_s
+   Definitions
+      At line 20 in file source\ws6_add_sub_tc_asm_funcs.s
+   Uses
+      At line 5 in file source\ws6_add_sub_tc_asm_funcs.s
+Comment: tc_uint64_to_int64_s used once
+5 symbols
+340 symbols in table

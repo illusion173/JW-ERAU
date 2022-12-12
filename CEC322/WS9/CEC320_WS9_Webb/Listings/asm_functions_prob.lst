@@ -1,0 +1,385 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             my_fancy_asm_code, CODE, READON
+LY 
+                                                            ; Define the progra
+                                                            m area
+    2 00000000         
+    3 00000000         ; Export functions defined in this file. These functions
+                        need to be declared 
+    4 00000000         ; in the file calling them.
+    5 00000000                 EXPORT           func_if_then_impl_1
+    6 00000000                 EXPORT           func_if_then_impl_2
+    7 00000000                 EXPORT           func_if_then_or_impl_1
+    8 00000000                 EXPORT           func_if_then_or_impl_2
+    9 00000000                 EXPORT           func_if_then_else_impl_1
+   10 00000000                 EXPORT           func_if_then_else_impl_2
+   11 00000000                 EXPORT           func_for_loop
+   12 00000000                 EXPORT           func_while_loop
+   13 00000000                 EXPORT           func_dowhile_loop
+   14 00000000         
+   15 00000000                 ALIGN                        ; Align the data in
+                                                             the boundary of 4 
+                                                            bytes. 
+   16 00000000         
+   17 00000000         
+   18 00000000         ; Simple if-then statements:
+   19 00000000         ; a. Implementation 1:
+   20 00000000         func_if_then_impl_1
+                               PROC
+   21 00000000         ; Put your code here. Note that you have to use BX  lr t
+                       o return to the caller.
+   22 00000000 6802            LDR              r2, [r0]
+   23 00000002 680B            LDR              r3, [r1]
+   24 00000004 2A00            CMP              r2, #0
+   25 00000006 DC01            BGT              task1_end
+   26 00000008 F1C2 0200       RSB              r2, #0
+   27 0000000C F103 0301 
+                       task1_end
+                               ADD              r3, #1
+   28 00000010 6002            STR              r2, [r0]
+   29 00000012 600B            STR              r3, [r1]
+   30 00000014 4770            BX               lr
+   31 00000016                 ENDP
+   32 00000016         
+   33 00000016         ; b. Implementation 2:
+   34 00000016         func_if_then_impl_2
+                               PROC
+   35 00000016         ; Put your code here. Note that you have to use BX  lr t
+                       o return to the caller.
+   36 00000016 6802            LDR              r2, [r0]
+   37 00000018 680B            LDR              r3, [r1]
+   38 0000001A 2A00            CMP              r2, #0
+   39 0000001C BFB8 4252       RSBLT            r2, #0
+   40 00000020 F103 0301       ADD              r3, #1
+   41 00000024 6002            STR              r2, [r0]
+   42 00000026 600B            STR              r3, [r1]
+   43 00000028 4770            BX               lr
+   44 0000002A                 ENDP
+   45 0000002A         
+   46 0000002A         ; Simple if-then statement with compound logic OR expres
+                       sion:
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   47 0000002A         ; a. Implementation 1:
+   48 0000002A         func_if_then_or_impl_1
+                               PROC
+   49 0000002A         ; Put your code here. Note that you have to use BX  lr t
+                       o return to the caller.
+   50 0000002A         ;ro = -4
+   51 0000002A         ;r1 = 1
+   52 0000002A 2914            CMP              r1, #20
+   53 0000002C DD01            BLE              then_1
+   54 0000002E 2919            CMP              r1, #25
+   55 00000030 DB02            BLT              endif_2
+   56 00000032 F04F 0201 
+                       then_1  MOV              r2, #1
+   57 00000036 6002            STR              r2, [r0]
+   58 00000038 4770    endif_2 BX               lr
+   59 0000003A                 ENDP
+   60 0000003A         
+   61 0000003A         ; b. Implementation 2:
+   62 0000003A         func_if_then_or_impl_2
+                               PROC
+   63 0000003A         ; Put your code here. Note that you have to use BX  lr t
+                       o return to the caller.
+   64 0000003A 6802            LDR              r2, [r0]
+   65 0000003C 2914            CMP              r1, #20
+   66 0000003E BFD8 2201       MOVLE            r2, #1
+   67 00000042 2919            CMP              r1, #25
+   68 00000044 BFA8 2201       MOVGE            r2, #1
+   69 00000048 6002            STR              r2, [r0]
+   70 0000004A 4770            BX               lr
+   71 0000004C                 ENDP
+   72 0000004C         
+   73 0000004C         ; Simple if-then-else statement:
+   74 0000004C         ; a. Implementation 1:
+   75 0000004C         func_if_then_else_impl_1
+                               PROC
+   76 0000004C         ; Put your code here. Note that you have to use BX  lr t
+                       o return to the caller.
+   77 0000004C 2801            CMP              r0, #1
+   78 0000004E D103            BNE              func_if_then_else_impl_1_else
+   79 00000050 F04F 0003       MOV              r0, #3
+   80 00000054 6008            STR              r0, [r1]
+   81 00000056 E002            B                func_if_then_else_impl_1_end
+   82 00000058         func_if_then_else_impl_1_else
+   83 00000058 F04F 0004       MOV              r0, #4
+   84 0000005C 6008            STR              r0, [r1]
+   85 0000005E         func_if_then_else_impl_1_end
+   86 0000005E 4770            BX               lr
+   87 00000060                 ENDP
+   88 00000060         
+   89 00000060         ; b. Implementation 2:
+   90 00000060         func_if_then_else_impl_2
+                               PROC
+   91 00000060         ; Put your code here. Note that you have to use BX  lr t
+                       o return to the caller.
+   92 00000060         ;a in r0
+   93 00000060         ; pointer to x in r1
+   94 00000060 F04F 0203       MOV              r2, #3
+   95 00000064 F04F 0304       MOV              r3, #4
+   96 00000068 2801            CMP              r0, #1
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   97 0000006A BF0C 600A       STREQ            r2, [r1]
+   98 0000006E 600B            STRNE            r3, [r1]
+   99 00000070 4770            BX               lr
+  100 00000072                 ENDP
+  101 00000072         
+  102 00000072         ; The for loop---a simple example
+  103 00000072         func_for_loop
+                               PROC
+  104 00000072         ; Put your code here. Note that you have to use BX  lr t
+                       o return to the caller.
+  105 00000072 4602            MOV              r2, r0      ; store i in r1
+  106 00000074 F04F 0000       MOV              r0, #0      ; sum
+  107 00000078 F04F 0100       MOV              r1, #0      ; i
+  108 0000007C 4291    loop_7  CMP              r1, r2
+  109 0000007E DA03            BGE              loop_7_end
+  110 00000080 4408            ADD              r0, r0, r1
+  111 00000082 F101 0101       ADD              r1, #1
+  112 00000086 E7F9            B                loop_7
+  113 00000088 4770    loop_7_end
+                               BX               lr
+  114 0000008A 4770            BX               lr
+  115 0000008C                 ENDP
+  116 0000008C         
+  117 0000008C         ; The while loop---a simple example
+  118 0000008C         func_while_loop
+                               PROC
+  119 0000008C         ; Put your code here. Note that you have to use BX  lr t
+                       o return to the caller.
+  120 0000008C 4601            MOV              r1, r0      ; store i in r1
+  121 0000008E F04F 0000       MOV              r0, #0      ; sum
+  122 00000092 2900    loop_8  CMP              r1, #0
+  123 00000094 DD03            BLE              loop_8_end
+  124 00000096 4408            ADD              r0, r0, r1
+  125 00000098 F1A1 0101       SUB              r1, #1
+  126 0000009C E7F9            B                loop_8
+  127 0000009E 4770    loop_8_end
+                               BX               lr
+  128 000000A0 4770            BX               lr
+  129 000000A2                 ENDP
+  130 000000A2         
+  131 000000A2         ; The do-while loop---a simple example
+  132 000000A2         func_dowhile_loop
+                               PROC
+  133 000000A2         ; Put yourcode here. Note that you have to use BX  lr to
+                        return to the caller.
+  134 000000A2 4601            MOV              r1, r0      ; store i in r1
+  135 000000A4 F04F 0000       MOV              r0, #0      ; sum
+  136 000000A8 4408    loop_9  ADD              r0, r0, r1
+  137 000000AA 3901            SUBS             r1, #1
+  138 000000AC 2900            CMP              r1, #0
+  139 000000AE DCFB            BGT              loop_9
+  140 000000B0 4770            BX               lr
+  141 000000B2                 ENDP
+  142 000000B2                 END                          ; End of the entire
+                                                             file
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
+interwork --depend=.\objects\asm_functions_prob.d -o.\objects\asm_functions_pro
+b.o -I.\RTE\_Target_sim -IC:\Users\illus\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.
+0\CMSIS\Core\Include -IC:\Users\illus\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\D
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+evice\ARM\ARMCM4\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VER
+SION SETA 535" --predefine="_RTE_ SETA 1" --predefine="ARMCM4_FP SETA 1" --pred
+efine="_RTE_ SETA 1" --list=.\listings\asm_functions_prob.lst source\asm_functi
+ons_prob.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+endif_2 00000038
+
+Symbol: endif_2
+   Definitions
+      At line 58 in file source\asm_functions_prob.s
+   Uses
+      At line 55 in file source\asm_functions_prob.s
+Comment: endif_2 used once
+func_dowhile_loop 000000A2
+
+Symbol: func_dowhile_loop
+   Definitions
+      At line 132 in file source\asm_functions_prob.s
+   Uses
+      At line 13 in file source\asm_functions_prob.s
+Comment: func_dowhile_loop used once
+func_for_loop 00000072
+
+Symbol: func_for_loop
+   Definitions
+      At line 103 in file source\asm_functions_prob.s
+   Uses
+      At line 11 in file source\asm_functions_prob.s
+Comment: func_for_loop used once
+func_if_then_else_impl_1 0000004C
+
+Symbol: func_if_then_else_impl_1
+   Definitions
+      At line 75 in file source\asm_functions_prob.s
+   Uses
+      At line 9 in file source\asm_functions_prob.s
+Comment: func_if_then_else_impl_1 used once
+func_if_then_else_impl_1_else 00000058
+
+Symbol: func_if_then_else_impl_1_else
+   Definitions
+      At line 82 in file source\asm_functions_prob.s
+   Uses
+      At line 78 in file source\asm_functions_prob.s
+Comment: func_if_then_else_impl_1_else used once
+func_if_then_else_impl_1_end 0000005E
+
+Symbol: func_if_then_else_impl_1_end
+   Definitions
+      At line 85 in file source\asm_functions_prob.s
+   Uses
+      At line 81 in file source\asm_functions_prob.s
+Comment: func_if_then_else_impl_1_end used once
+func_if_then_else_impl_2 00000060
+
+Symbol: func_if_then_else_impl_2
+   Definitions
+      At line 90 in file source\asm_functions_prob.s
+   Uses
+      At line 10 in file source\asm_functions_prob.s
+Comment: func_if_then_else_impl_2 used once
+func_if_then_impl_1 00000000
+
+Symbol: func_if_then_impl_1
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+   Definitions
+      At line 20 in file source\asm_functions_prob.s
+   Uses
+      At line 5 in file source\asm_functions_prob.s
+Comment: func_if_then_impl_1 used once
+func_if_then_impl_2 00000016
+
+Symbol: func_if_then_impl_2
+   Definitions
+      At line 34 in file source\asm_functions_prob.s
+   Uses
+      At line 6 in file source\asm_functions_prob.s
+Comment: func_if_then_impl_2 used once
+func_if_then_or_impl_1 0000002A
+
+Symbol: func_if_then_or_impl_1
+   Definitions
+      At line 48 in file source\asm_functions_prob.s
+   Uses
+      At line 7 in file source\asm_functions_prob.s
+Comment: func_if_then_or_impl_1 used once
+func_if_then_or_impl_2 0000003A
+
+Symbol: func_if_then_or_impl_2
+   Definitions
+      At line 62 in file source\asm_functions_prob.s
+   Uses
+      At line 8 in file source\asm_functions_prob.s
+Comment: func_if_then_or_impl_2 used once
+func_while_loop 0000008C
+
+Symbol: func_while_loop
+   Definitions
+      At line 118 in file source\asm_functions_prob.s
+   Uses
+      At line 12 in file source\asm_functions_prob.s
+Comment: func_while_loop used once
+loop_7 0000007C
+
+Symbol: loop_7
+   Definitions
+      At line 108 in file source\asm_functions_prob.s
+   Uses
+      At line 112 in file source\asm_functions_prob.s
+Comment: loop_7 used once
+loop_7_end 00000088
+
+Symbol: loop_7_end
+   Definitions
+      At line 113 in file source\asm_functions_prob.s
+   Uses
+      At line 109 in file source\asm_functions_prob.s
+Comment: loop_7_end used once
+loop_8 00000092
+
+Symbol: loop_8
+   Definitions
+      At line 122 in file source\asm_functions_prob.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 126 in file source\asm_functions_prob.s
+Comment: loop_8 used once
+loop_8_end 0000009E
+
+Symbol: loop_8_end
+   Definitions
+      At line 127 in file source\asm_functions_prob.s
+   Uses
+      At line 123 in file source\asm_functions_prob.s
+Comment: loop_8_end used once
+loop_9 000000A8
+
+Symbol: loop_9
+   Definitions
+      At line 136 in file source\asm_functions_prob.s
+   Uses
+      At line 139 in file source\asm_functions_prob.s
+Comment: loop_9 used once
+my_fancy_asm_code 00000000
+
+Symbol: my_fancy_asm_code
+   Definitions
+      At line 1 in file source\asm_functions_prob.s
+   Uses
+      None
+Comment: my_fancy_asm_code unused
+task1_end 0000000C
+
+Symbol: task1_end
+   Definitions
+      At line 27 in file source\asm_functions_prob.s
+   Uses
+      At line 25 in file source\asm_functions_prob.s
+Comment: task1_end used once
+then_1 00000032
+
+Symbol: then_1
+   Definitions
+      At line 56 in file source\asm_functions_prob.s
+   Uses
+      At line 53 in file source\asm_functions_prob.s
+Comment: then_1 used once
+20 symbols
+355 symbols in table

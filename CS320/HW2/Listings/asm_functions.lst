@@ -1,0 +1,93 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             strcopy, CODE
+    2 00000000         
+    3 00000000                 IMPORT           count
+    4 00000000         
+    5 00000000                 ALIGN
+    6 00000000         
+    7 00000000         strcpy_asm_in_s
+                               PROC
+    8 00000000                 EXPORT           strcpy_asm_in_s
+    9 00000000 4A07            LDR              r2, =count
+   10 00000002 6812            LDR              r2, [r2]
+   11 00000004 F1A2 0201       SUB              r2, r2, #1
+   12 00000008 2A00    loop    CMP              r2, #0
+   13 0000000A D006            BEQ              end_loop
+   14 0000000C F810 3B01       LDRB             r3, [r0], #1
+   15 00000010 F801 3B01       STRB             r3, [r1], #1
+   16 00000014 F1A2 0201       SUB              r2, #1
+   17 00000018 E7F6            B                loop
+   18 0000001A         end_loop
+   19 0000001A 700A            STRB             r2, [r1]
+   20 0000001C 4770            BX               lr
+   21 0000001E                 ENDP
+   22 0000001E         
+   23 0000001E                 END
+              00 00 00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
+interwork --depend=.\objects\asm_functions.d -o.\objects\asm_functions.o -I.\RT
+E\_Target_sim -IC:\Users\illus\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Co
+re\Include -IC:\Users\illus\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\
+ARMCM4\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 
+535" --predefine="_RTE_ SETA 1" --predefine="ARMCM4_FP SETA 1" --predefine="_RT
+E_ SETA 1" --list=.\listings\asm_functions.lst source\asm_functions.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+end_loop 0000001A
+
+Symbol: end_loop
+   Definitions
+      At line 18 in file source\asm_functions.s
+   Uses
+      At line 13 in file source\asm_functions.s
+Comment: end_loop used once
+loop 00000008
+
+Symbol: loop
+   Definitions
+      At line 12 in file source\asm_functions.s
+   Uses
+      At line 17 in file source\asm_functions.s
+Comment: loop used once
+strcopy 00000000
+
+Symbol: strcopy
+   Definitions
+      At line 1 in file source\asm_functions.s
+   Uses
+      None
+Comment: strcopy unused
+strcpy_asm_in_s 00000000
+
+Symbol: strcpy_asm_in_s
+   Definitions
+      At line 7 in file source\asm_functions.s
+   Uses
+      At line 8 in file source\asm_functions.s
+Comment: strcpy_asm_in_s used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+count 00000000
+
+Symbol: count
+   Definitions
+      At line 3 in file source\asm_functions.s
+   Uses
+      At line 9 in file source\asm_functions.s
+Comment: count used once
+1 symbol
+342 symbols in table

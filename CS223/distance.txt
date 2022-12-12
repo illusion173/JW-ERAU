@@ -1,0 +1,11 @@
+Name	Distance
+
+Alpha	936 Miles
+
+Gamma	526 Miles
+
+Delta	1354 Miles
+
+Epsilon	478 Miles
+
+Phi	537 Miles
